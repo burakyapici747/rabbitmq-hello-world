@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 public class Send {
-    private final static String QUEUE_NAME = "hello";
+    private static final String QUEUE_NAME_1 = "hello";
+    private static final String QUEUE_NAME_2 = "world";
 
     public static void main(String[] argv){
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -16,16 +17,14 @@ public class Send {
         try(Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel()){
 
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String number = "1";
-
-            for(int i = 1; i <= 100; i++){
-                number = String.valueOf(i);
-                channel.basicPublish("", QUEUE_NAME, null, number.getBytes());
-                System.out.println(" [x] Sent '" + number + "'");
-            }
+            channel.queueDeclare(QUEUE_NAME_1, false, false, false, null);
+            channel.queueDeclare(QUEUE_NAME_2, false, false, false, null);
 
 
+            channel.basicPublish("", QUEUE_NAME_1, null, "Hello".getBytes());
+            channel.basicPublish("", QUEUE_NAME_2, null, "World".getBytes());
+            System.out.println(" [x] Sent '" + "Hello" + "'");
+            System.out.println(" [x] Sent '" + "World" + "'");
 
         } catch (IOException | TimeoutException e) {
             throw new RuntimeException(e);

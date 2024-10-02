@@ -21,8 +21,13 @@ public class Receiver {
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "'");
+            String message1 = new String(delivery.getBody(), StandardCharsets.UTF_8);
+            System.out.println();
         };
+
+
+
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+        channel.basicConsume("world", true, deliverCallback, consumerTag -> { });
     }
 }
