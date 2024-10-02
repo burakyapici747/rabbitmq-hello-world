@@ -14,11 +14,14 @@ public class Worker {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost("localhost");
 
-        Connection connection = connectionFactory.newConnection();
-        Channel channel = connection.createChannel();
+        final Connection connection = connectionFactory.newConnection();
+        final Channel channel = connection.createChannel();
 
         boolean durable = true;
         channel.queueDeclare(TASK_QUEUE_NAME, durable, false, false, null);
+        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+
+        channel.basicQos(1);
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
