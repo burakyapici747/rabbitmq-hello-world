@@ -1,4 +1,4 @@
-package org.example;
+package org.example.helloworld;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -24,8 +24,6 @@ public class Receiver {
             String message1 = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println();
         };
-
-
 
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
         channel.basicConsume("world", true, deliverCallback, consumerTag -> { });
